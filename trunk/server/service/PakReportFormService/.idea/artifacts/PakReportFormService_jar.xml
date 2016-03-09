@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PakReportFormService:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PakReportFormService_jar</output-path>
+    <root id="archive" name="PakReportFormService.jar">
+      <element id="module-output" name="PakReportFormService" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/commons-codec-1.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/commons-logging-1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/fluent-hc-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/httpclient-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/httpclient-cache-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/httpclient-win-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/httpcore-4.4.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/httpmime-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jna-4.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jna-platform-4.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/poi-3.13-20150929.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

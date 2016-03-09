@@ -1,0 +1,243 @@
+package logic;
+
+import common.Config;
+import common.Utils;
+import models.BaseModel;
+import models.ExpressModel;
+import models.FileDelModel;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Author : pangbolike.
+ * Date : 2015/8/30.
+ */
+public class ExcelExport {
+
+    public static List<String> mTotalTitles = new ArrayList<>();
+
+    public static List<String> mTotalTitles_en = new ArrayList<>();
+
+    static{
+        mTotalTitles.add("Days to pick up");
+        mTotalTitles.add("count");
+        mTotalTitles.add("Percentage");
+        mTotalTitles_en.add("取件天数");
+        mTotalTitles_en.add("数量");
+        mTotalTitles_en.add("百分比");
+    }
+
+    public static InputStream exportExpressExcel(String id,String path,List<BaseModel> list,String language,Map<String, String> parms) {
+
+        String fileName = path + Config.EXPORT_RESULT_FILE_PRE + id + System.currentTimeMillis() + ".xls";
+
+        if (list == null || list.size() == 0) {
+            HSSFWorkbook wb = new HSSFWorkbook();
+            try {
+                FileOutputStream fout = new FileOutputStream(fileName);
+                wb.write(fout);
+                fout.close();
+//                Utils.log(String.format("写入一个空的文件:[%s]", fileName));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                Utils.printTimeLog("prepare result ok");
+                return new FileInputStream(fileName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Utils.printTimeLog("list size = " + list.size());
+        Utils.printTimeLog("path = " + fileName);
+
+        boolean needOverDueTime = "COURIER_STORE".equalsIgnoreCase(parms.get("expressType"));
+
+        // 第一步，创建一个webbook，对应一个Excel文件
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = null;
+        BaseModel item = null;
+        HSSFCellStyle style = wb.createCellStyle();
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        HSSFCell cell = null;
+        HSSFRow row = null;
+        List<String> titles = null;
+        int sum = list.size();
+        if (language.equalsIgnoreCase("en")){
+            titles = ExpressModel.titles_en;
+        }else{
+            titles = ExpressModel.titles;
+        }
+        int CountTable[] = new int[8];
+        for (int i = 0,r = 0; r < list.size(); i++,r++) {
+            item = list.get(r);
+            if (i % 65535 == 0) {
+                sheet = wb.createSheet("sheet" + i / 65535);
+                row = sheet.createRow(0);
+                for (int j = 0; j < titles.size(); j++) {
+                    cell = row.createCell(j);
+                    cell.setCellStyle(style);
+                    cell.setCellValue(titles.get(j));
+                }
+                i++;
+                //Utils.printTimeLog("row i = " + i);
+            }
+           // Utils.printTimeLog("row =  r = " + r);
+            row = sheet.createRow(i % 65535);
+            if (item instanceof ExpressModel) {
+                cell = row.createCell(0);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mExpressNumber);
+                cell = row.createCell(1);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mElectronicName);
+                cell = row.createCell(2);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mTakeUserPhoneNumber);
+                cell = row.createCell(3);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mStoreUserName);
+                cell = row.createCell(4);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mStoreUserPhoneNumber);
+                cell = row.createCell(5);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mPakpoboxNumber);
+                cell = row.createCell(6);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mPakpoboxName);
+                cell = row.createCell(7);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mPortNumver >= 0 ? ((ExpressModel) item).mPortNumver + "" : "--");
+                cell = row.createCell(8);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mExpressStatus);
+                cell = row.createCell(9);
+                cell.setCellStyle(style);
+                cell.setCellValue(getDate(((ExpressModel) item).mStoreTime));
+                cell = row.createCell(10);
+                cell.setCellStyle(style);
+                cell.setCellValue(getDate(((ExpressModel) item).mTakeTime));
+                cell = row.createCell(11);
+                cell.setCellStyle(style);
+                if (needOverDueTime)
+                    cell.setCellValue(getDate(((ExpressModel) item).mDueTime));
+                else
+                    cell.setCellValue("--");
+                cell = row.createCell(12);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mHours);
+                cell = row.createCell(13);
+                cell.setCellStyle(style);
+                cell.setCellValue(getP2Num(((ExpressModel) item).mDays));
+                cell = row.createCell(14);
+                cell.setCellStyle(style);
+                cell.setCellValue(((ExpressModel) item).mDayCount);
+                if (needOverDueTime) {
+                    if (((ExpressModel) item).mDayCount <= 6 && ((ExpressModel) item).mDayCount >=0 ) {
+                        CountTable[((ExpressModel) item).mDayCount]++;
+                    } else if (((ExpressModel) item).mDayCount >=0 ){
+                        CountTable[7]++;
+                    }
+                }
+            }
+
+        }
+        if (needOverDueTime) {
+            List<String> totalTitles = null;
+            if (language.equalsIgnoreCase("en")) {
+                totalTitles = mTotalTitles_en;
+            } else {
+                totalTitles = mTotalTitles;
+            }
+
+            sheet = wb.createSheet("total");
+            row = sheet.createRow(0);
+            for (int i = 0; i < totalTitles.size(); i++) {
+                cell = row.createCell(i);
+                cell.setCellStyle(style);
+                cell.setCellValue(totalTitles.get(i));
+            }
+
+            for (int i = 0; i < 8; i++) {
+                row = sheet.createRow(i + 1);
+                cell = row.createCell(0);
+                cell.setCellStyle(style);
+                if (i < 7) {
+                    cell.setCellValue(i);
+                } else {
+                    cell.setCellValue(">6");
+                }
+                cell = row.createCell(1);
+                cell.setCellStyle(style);
+                cell.setCellValue(CountTable[i]);
+                cell = row.createCell(2);
+                cell.setCellStyle(style);
+                cell.setCellValue(getP2Num(CountTable[i] * 1.0 / sum));
+            }
+
+            row = sheet.createRow(9);
+
+            cell = row.createCell(0);
+            cell.setCellStyle(style);
+            cell.setCellValue("Total");
+            cell = row.createCell(1);
+            cell.setCellStyle(style);
+            cell.setCellValue(sum);
+        }
+        Utils.printTimeLog("start write file");
+        try {
+            FileOutputStream fout = new FileOutputStream(fileName);
+            wb.write(fout);
+            fout.flush();
+            fout.close();
+            wb.close();
+            FileCleanService.getInstance().add(FileDelModel.obtain(fileName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Utils.printTimeLog("write file end");
+        try {
+            Utils.printTimeLog("prepare result ok");
+            return new FileInputStream(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Utils.printTimeLog("open file failed");
+        return null;
+    }
+
+    public static String getDate(long time){
+        String times="0";
+        if(time==0L||time==-1L)
+        {
+            times= "--";
+        }
+        else
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            times = sdf.format(new Date(time));
+        }
+        return times;
+    }
+
+    public static String getP2Num(double num){
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return decimalFormat.format(num);
+    }
+}

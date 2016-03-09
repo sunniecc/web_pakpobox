@@ -1,0 +1,33 @@
+{
+  "name": "pakpobox",
+  "version": "1.0.0",
+  "description": "先安装[NodeJs](https://nodejs.org/)，然后cd到htdoc根目录，执行以下命令：",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "coffee-loader": "^0.7.2",
+    "css-loader": "^0.16.0",
+    "ejs-compiled-loader": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-copy": "^0.0.2",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^1.2.0",
+    "gulp-uglify": "^1.2.0",
+    "gulp-util": "^3.0.6",
+    "gulp-watch": "^4.3.4",
+    "html-loader": "^0.3.0",
+    "jsx-loader": "^0.13.2",
+    "less": "^2.5.1",
+    "raw-loader": "^0.5.1",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.11.0"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.9.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

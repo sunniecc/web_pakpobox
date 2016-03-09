@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="logistics" ng-controller="main" style="display:none;">
+
+<div ng-include="'header'">
+
+</div>
+
+<div class="container">
+    <div class="sidebar" ng-include="'nav'">
+
+    </div>
+    <div class="content">
+        <form class="form-inline searchform">
+            <div class="searchform-content">
+                <div class="form-group">
+                    <label for="exampleInputName2"><span ng-bind="LLevel"></span>：</label>
+                    <label class="radio-inline" ng-class="{selected: isLevelActive('')}" ng-click="selectLevel('')">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> <span ng-bind="LAll"></span>
+                    </label>
+                    <label class="radio-inline" ng-class="{selected: isLevelActive('1')}" ng-click="selectLevel('1')">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> <span ng-bind="LLevelOne"></span>
+                    </label>
+                    <label class="radio-inline" ng-class="{selected: isLevelActive('2')}" ng-click="selectLevel('2')">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> <span ng-bind="LLevelTwo"></span>
+                    </label>
+                    <label class="radio-inline" ng-class="{selected: isLevelActive('3')}" ng-click="selectLevel('3')">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> <span ng-bind="LLevelThree"></span>
+                    </label>
+                    <label class="radio-inline" ng-class="{selected: isLevelActive('4')}" ng-click="selectLevel('4')">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> <span ng-bind="LLevelFour"></span>
+                    </label>
+                    <label class="radio-inline" ng-class="{selected: isLevelActive('5')}" ng-click="selectLevel('5')">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> <span ng-bind="LLevelFive"></span>
+                    </label>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label for="exampleInputName2"><span ng-bind="LName"></span>：</label>
+                    <input type="text" class="form-control" id="exampleInputName2" placeholder="" ng-model="nameValue">
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label for="exampleInputName3"><span ng-bind="LLogisticsParentId"></span>：</label>
+                    <input type="text" class="form-control" id="exampleInputName3" placeholder="" ng-model="ParentIdVal">
+                </div>
+            </div>
+            <div class="searchform-button">
+                <div class="searchform-button_inner">
+                    <button class="btn btn-primary btn-lg" ng-click="search()"><i class="glyphicon glyphicon-search" aria-hidden="true"></i> <span ng-bind="LSearch"></span></button>
+                </div>
+            </div>
+
+        </form>
+        <a href="logistics_edit.html" class="btn btn-primary" ng-bind="LNewLogistics"></a>
+        <div ng-include="'table'"></div>
+    </div>
+</div>
+
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/logistics.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<div id="alert"></div>
+<table ng-show="tableData && tableData.tbody.length > 0" class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th ng-repeat="item in tableData.thead track by $index" ng-bind="item"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="tr in tableData.tbody track by $index">
+            <td ng-repeat="item in tr track by $index" ng-bind-html="item | trusted"></td>
+        </tr>
+    </tbody>
+</table>
+<div ng-show="showTipsType==1" class="loading"><img ng-src="assets/img/loading.gif"/></div>
+<div ng-show="showTipsType==2" class="loading"><span ng-bind="LResponseEmpty"></span></div>
+<paging ng-show="tableData && tableData.tbody.length > 0 && !pageHide">
+    <div class="page">
+        <div class="goto-page">
+            <input type="text" class="goto-input" ng-model="pageNum.gotoPage">
+            <a class="goto-text" ng-click="gotoPage()" ng-bind="LGoto"></a>
+        </div>
+
+        <ul class="pagination">
+            <li ng-class="{disabled: noPrevious()}">
+                <a href="#" aria-label="Previous" ng-click="selectStart()">
+                    <i class="glyphicon glyphicon-backward" aria-hidden="true" />
+                </a>
+            </li>
+            <li ng-class="{disabled: noPrevious()}">
+                <a href="#" aria-label="Previous" ng-click="selectPrevious()">
+                    <i class="glyphicon glyphicon-triangle-left" aria-hidden="true" />
+                </a>
+            </li>
+            <li ng-repeat="page in pageNum.pages" ng-class="{active: isActive(page)}"><a ng-click="selectPage(page)">{{page}}</a></li>
+            <li ng-class="{disabled: noNext()}">
+                <a href="#" aria-label="Next" ng-click="selectNext()">
+                    <i class="glyphicon glyphicon-triangle-right" aria-hidden="true" />
+                </a>
+            </li>
+            <li ng-class="{disabled: noNext()}">
+                <a href="#" aria-label="Next" ng-click="selectEnd()">
+                    <i class="glyphicon glyphicon-forward" aria-hidden="true" />
+                </a>
+            </li>
+        </ul>
+        <div class="page-num">
+            <span ng-bind="LPageNum"></span>
+            <span ng-bind="pageNum.pagesSize"></span>&nbsp&nbsp&nbsp&nbsp&nbsp
+            <span ng-bind="LRecordNum"></span>
+            <span ng-bind="recordNum"></span>
+        </div>
+    </div>
+</paging>
+

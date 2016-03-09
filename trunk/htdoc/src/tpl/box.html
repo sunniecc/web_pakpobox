@@ -1,0 +1,60 @@
+<div class="box-add form-inline">
+    <div class="form-group box-size">
+        <label for="size_1"><span ng-bind="LBoxSize"></span>：</label>
+        <input type="number" class="form-control input-number" id="size_1" value="10" disabled>
+        <input type="number" class="form-control input-number" id="size_2" value="10" disabled>
+    </div>
+    <div class="box-symbol">
+        <div class="box-symbol_type">
+            <span class="box-symbol_tag box-type-MINI" data-type="MINI" draggable="true" ></span>MINI
+            <span class="box-symbol_tag box-type-S" data-type="S" draggable="true" ></span>S
+            <span class="box-symbol_tag box-type-M" data-type="M" draggable="true" ></span>M
+            <span class="box-symbol_tag box-type-L" data-type="L" draggable="true" ></span>L
+            <span class="box-symbol_tag box-type-XL" data-type="XL" draggable="true" ></span>XL
+            <span class="box-symbol_tag box-type-XXL" data-type="XXL" draggable="true" ></span>XXL
+        </div>
+        <div class="box-symbol_status">
+            <span class="box-symbol_tag box-status-0" data-status="0" draggable="true" ></span><span ng-bind="LPakpoBoxFree"></span>
+            <span class="box-symbol_tag box-status-1" data-status="1" draggable="true" ></span><span ng-bind="LPakpoBoxBusy"></span>
+            <span class="box-symbol_tag box-status-2" data-status="2" draggable="true" ></span><span ng-bind="LPakpoBoxLocked"></span>
+        </div>
+
+    </div>
+</div>
+<div class="box-buttons">
+
+</div>
+<table class="box-table">
+    <tbody>
+
+
+    </tbody>
+</table>
+<div class="edit-content" style="display: none;">
+    <input type="button" class="btn btn-primary edit-btn input-lg edit-input_width_md" ng-disabled="submitConfirm" ng-value="LSubmit" ng-click="boxSubmit()"/>
+</div>
+<div class="modal fade" id="boxInfoModal" tabindex="-1" role="dialog" aria-labelledby="boxInfoModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="boxInfoModalLabel" ng-bind="LExpressInfo">快件信息</h4>
+            </div>
+            <div class="modal-body">
+                <dl class="dl-horizontal">
+                    <dt ng-bind="LPakpoboxMouthId"></dt><dd id="mouthId"></dd>
+                    <dt ng-bind="LTableOrderNumber"></dt><dd id="expressNumber"></dd>
+                    <dt ng-bind="LDetailStoreTime"></dt><dd id="storeTime"></dd>
+                    <dt ng-bind="LDetailTakeTime"></dt><dd id="takeTime"></dd>
+                    <dt ng-bind="LDetailValidation"></dt><dd id="validateCode"></dd>
+                    <dt ng-bind="LDetailStoreName"></dt><dd id="storeUserName"></dd>
+                    <dt ng-bind="LDetailStorePhone"></dt><dd id="storeUserPhoneNumber"></dd>
+                    <dt ng-bind="LTableTakerPhone"></dt><dd id="takeUserPhoneNumber"></dd>
+                    <dt ng-bind="LDetailStatu"></dt><dd id="expressStatus"></dd>
+                    <dd><a target="_blank" id="expressDetail" href="express_info.html?id=" ng-bind="LTableDetails"></a></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+

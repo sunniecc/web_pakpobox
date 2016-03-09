@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>
+    <!--[if lt IE 9]>
+    <script>
+        location.href = 'error_browser.html';
+    </script>
+    <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="boxInfo" ng-controller="main" style="display:none;">
+
+<div ng-include="'header'">
+
+</div>
+
+<div class="container info-container">
+    <div class="box-title">
+        <h3 class="box-h3" ng-bind="box.title"></h3>
+        <a data-toggle="modal" data-target="#pakpoboxInfoModal" ng-bind="LTableDetails"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a ng-click="editBox()" ng-bind="LPakpoboxEdit"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a ng-click="updateBox()" ng-bind="LPakpoBoxInfoUpdate"></a>
+    </div>
+
+    <div id="alert"></div>
+    <div class="boxInfo-content">
+
+        <div class="boxInfo-edit">
+            <button  class="btn btn-primary" ng-bind="LPakpoboxRemoteUnlock" ng-click="remoteUnlock()"></button>
+
+            <div class="boxInfo-trans">
+                <small ng-click="setStatus(1)" ng-bind="LPakpoBoxModifyMouthStatus">修改隔口状态：</small>
+                <button class="btn box-status-0" ng-click="setStatus(0);" ng-bind="LPakpoBoxEmpty">置空</button>
+                <!--<button class="btn box-status-1" ng-click="setStatus(1);">占用</button>-->
+                <button class="btn box-status-2" ng-click="setStatus(2);" ng-bind="LPakpoBoxLock">锁定</button>
+            </div>
+        </div>
+
+    </div>
+    <hr />
+
+    <div ng-include="'box'"></div>
+    <p class="text-right"><span ng-bind="LPakpoBoxFreeMouthNum"></span><span ng-bind="remainMouths"></span></p>
+</div>
+<div class="modal fade" id="remoteUnlockModal" tabindex="-1" role="dialog" aria-labelledby="remoteUnlockModalLabel" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="remoteUnlockModalLabel" ng-bind="LPakpoboxRemoteUnlock"></h4>
+            </div>
+            <div class="modal-body">
+                <p ng-bind="LPakpoBoxRemoteUnlock">
+                    是否确认对以下选中格口进行远程开锁？
+                </p>
+                <p ng-repeat="item in remoteUnlockList">
+                    <span ng-bind="LDetailPakpoboxMouth">：</span>
+                    <span ng-bind="item.number"></span> -----
+                    <span ng-bind="item.result"></span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-bind="LApply" ng-click="confirmRemoteUnlock()"></button>
+                <button type="button" class="btn btn-default" ng-bind="LCancel" data-dismiss="modal"></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="changeStatusModal" tabindex="-1" role="dialog" aria-labelledby="changeStatusModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="changeStatusModalLabel" ng-bind="LPakpoboxChangeStatus"></h4>
+            </div>
+            <div class="modal-body">
+                <p ng-bind="LPakpoBoxStatusModify">
+                    是否确认对以下选中格口状态进行修改？
+                </p>
+                <p ng-repeat="item in mouthChangeList">
+                    <span ng-bind="LDetailPakpoboxMouth">：</span>
+                    <span ng-bind="item.number"></span> -----
+                    <span ng-bind="item.result"></span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-bind="LApply" ng-click="confirmChangeStatus()"></button>
+                <button type="button" class="btn btn-default" ng-bind="LCancel" data-dismiss="modal"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pakpoboxInfoModal" tabindex="-1" role="dialog" aria-labelledby="pakpoboxInfoModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="pakpoboxInfoModalLabel" ng-bind="LPakpoBoxDetail"></h4>
+            </div>
+            <div class="modal-body">
+                <dl class="dl-horizontal">
+                    <dt ng-bind="LPakpoboxName"></dt><dd ng-bind="name"></dd>
+                    <dt ng-bind="LPakpoboxOrderNo"></dt><dd ng-bind="orderNo"></dd>
+                    <dt ng-bind="LPakpoboxOperatorName"></dt><dd ng-bind="operator"></dd>
+                    <dt ng-bind="LPakpoboxZoneId"></dt><dd ng-bind="zoneId"></dd>
+                    <dt ng-bind="LPakpoboxCurrencyUnit"></dt><dd ng-bind="currencyUnit"></dd>
+                    <dt ng-bind="LPakpoboxOverdueType"></dt><dd ng-bind="overdueType"></dd>
+                    <dt ng-bind="LPakpoboxOverdueTime"></dt><dd ng-bind="overdueTime"></dd>
+                    <dt ng-bind="LPakpoboxSmsAccount"></dt><dd ng-bind="smsAccountName"></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/box_info.js"></script>
+
+</body>
+</html>

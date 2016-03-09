@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="operatorEdit" ng-controller="main" style="display:none;">
+
+<div ng-include="'header'"></div>
+
+<div class="container">
+    <div class="sidebar" ng-include="'nav'">
+
+    </div>
+    <div class="content">
+
+        <h3 class="edit-h3" ng-bind="LOperatorInfo"></h3>
+        <hr/>
+        <div class="edit-nav operator-nav" ng-hide="update">
+            <label class="edit-nav_num selected" for="">1</label>
+            <span ng-bind="LOperatorInfo"></span>
+            <span class="edit-nav_line">。。</span>
+            <label class="edit-nav_num">2</label>
+            <span ng-bind="LLinkmanInfo"></span>
+        </div>
+        <div class="edit-content">
+            <p class="edit-p" ng-bind="LOperatorInfoTips"></p>
+            <div>
+                <input type="text" class="edit-input input-lg edit-input_width_md" id="name" placeholder="{{LOperatorNamePlaceholder}}"  ng-model="name"/>
+            </div>
+            <div>
+                <input type="text" class="edit-input input-lg edit-input_width_md" id="parent" placeholder="{{LOperatorParentPlaceholder}}" ng-show="userrole == 'ROOT'" ng-model="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
+            </div>
+            <div id="alert" class="edit-input_width_md"></div>
+            <input type="button" class="btn btn-primary edit-btn input-lg edit-input_width_md" ng-disabled="submitDisabled" ng-value="SubmitText" ng-click="submit()"/>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/operator_edit.js"></script>
+
+</body>
+</html>

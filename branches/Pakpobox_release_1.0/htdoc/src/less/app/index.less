@@ -1,0 +1,54 @@
+@color-border: #ddd;
+.index-cont{
+
+}
+.index-charts{
+  //display: inline-block;
+  height:500px;
+  width:100%;
+  //border:1px solid @color-border;
+  padding:10px;
+}
+.index-charts .index-charts-left{
+  display: inline-block;
+  height:500px;
+  width: 49%;
+}
+.index-charts .index-charts-right{
+  display: inline-block;
+  height:500px;
+  width: 49%;
+}
+.index-info{
+  //display: inline-block;
+  height:190px;
+  //width: 34%;
+  //border:1px solid @color-border;
+  padding: 30px 50px;
+  //vertical-align: top;
+  font-size: 16px;
+}
+.index-info .dl-horizontal{
+  display: inline-block;
+  width: 37%;
+  vertical-align: top;
+}
+.index-info dt, .index-info dd{
+  line-height: 2;
+  clear: none;
+}
+.index-info dd:before, .index-info dd:after{
+  content: none;
+}
+
+@media (max-width: 1450px){
+  .index-info dt{
+    width: 90px;
+  }
+  .index-info dd{
+    margin-left: 110px;
+  }
+  .index-charts .index-charts-left, .index-charts .index-charts-right{
+    height: 400px;
+  }
+}

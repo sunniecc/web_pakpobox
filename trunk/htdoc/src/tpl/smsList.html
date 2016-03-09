@@ -1,0 +1,14 @@
+<h3 class="sms-h3" ng-bind="sms.title"></h3>
+<hr class="sms-hr"/>
+
+<div class="sms-content">
+    <div class="sms-item" ng-repeat="item in sms.content track by $index">
+        <div><h4><a class="sms-item-time" ng-bind="item.time" ></a><a href="#" ng-bind="item.des"></a></h4></div>
+        <div><p class="sms-value" ng-bind="item.text"></p></div>
+        <div><span class="sms-status">状态:</span><span class="sms-status-value" ng-bind="item.smsStatu"></span></div>
+    </div>
+</div>
+
+<div class="sms-button">
+    <input type="button" class="btn btn-lg btn-primary input-md" ng-click="close()" ng-value="LClose" \>
+</div>

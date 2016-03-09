@@ -1,0 +1,284 @@
+package logic;
+
+import common.Config;
+import common.Utils;
+import http.HttpUtils;
+import models.BaseModel;
+import models.FileDelModel;
+import models.ImportExpModel;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * Author : pangbolike.
+ * Date : 2015/10/18.
+ */
+public class ImportExpress {
+    public static String importExpress(String path,String uri,String id,String userToken){
+
+        try{
+            int importType = Config.TYPE_IMPORT_NORMAL;
+            if ("/express/staffImportCustomerStoreExpress".equals(uri)){
+                importType = Config.TYPE_IMPORT_SAVE;
+            }
+            else if ("/express/staffImportCustomerRejectExpress".equals(uri)){
+                importType = Config.TYPE_IMPORT_REJECT;
+            }
+            List<ImportExpModel> list = CustomerStoreExpressLoad.load(path,importType);
+            Utils.log("size = " + list.size());
+
+            List<String> listBadParams = new ArrayList<>();
+            List<String> listNotPerMission = new ArrayList<>();
+            List<String> listAlreadyExist = new ArrayList<>();
+
+            String url = Config.REQUEST_URI_PRE + uri;
+            HashMap<String,String> headers = new HashMap<>();
+            headers.put("userToken",userToken);
+            JSONArray arr = new JSONArray();
+            JSONObject obj;
+            int count = 0;
+            for (ImportExpModel item : list){
+                if (importType == Config.TYPE_IMPORT_NORMAL) {
+                    obj = new JSONObject();
+                    obj.put("expressNumber", item.key);
+                    obj.put("takeUserPhoneNumber", item.value);
+                    if (!Utils.isEmpty(item.ecommerceCompany)){
+                        JSONObject ecommerceCompany = new JSONObject();
+                        ecommerceCompany.put("id",item.ecommerceCompany);
+                        if (ecommerceCompany.get("id") !=null&&ecommerceCompany.get("id")!="") {
+                            obj.put("electronicCommerce", ecommerceCompany);
+                        }
+                    }
+                    arr.put(obj);
+                    count++;
+                    if (count % Config.MAX_PER_POST_COUNT == 0) {
+                        String postStr = arr.toString();
+                        String result = HttpUtils.getHttpResultStr(HttpUtils.sendPost(url, postStr, null, headers));
+                        arr = new JSONArray();
+                        //处理结果
+                        handleResult(result, listBadParams, listNotPerMission, listAlreadyExist);
+                        //
+                    }
+                    Utils.log(item.key + " = " + item.value);
+                }else if (importType == Config.TYPE_IMPORT_SAVE){
+                    showItem(item);
+                    obj = new JSONObject();
+                    obj.put("customerStoreNumber", item.key);
+                    obj.put("takeUserPhoneNumber", item.value);
+                    JSONObject logisticsCompany = new JSONObject();
+                    logisticsCompany.put("id",item.logisticsCompany);
+                    obj.put("logisticsCompany",logisticsCompany);
+                    JSONObject ecommerceCompany = new JSONObject();
+                    ecommerceCompany.put("id",item.ecommerceCompany);
+                    if (ecommerceCompany.get("id") !=null&&ecommerceCompany.get("id")!="") {
+                    obj.put("electronicCommerce",ecommerceCompany);}
+                    obj.put("chargeType",item.chargeType);
+                    obj.put("recipientName",item.recipientName);
+                    obj.put("recipientUserPhoneNumber",item.recipientUserPhoneNumber);
+                    obj.put("designationSize",item.designationSize);
+                    obj.put("takeUserMail",item.takeUserMail);
+                    obj.put("endAddress",item.endAddress);
+                    HttpResponse httpResponse = HttpUtils.sendPost(url, obj.toString(), null, headers);
+                    if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK){
+                        listAlreadyExist.add(item.key);
+                    }
+                    HttpUtils.getHttpResultStr(httpResponse);
+
+                }else if (importType == Config.TYPE_IMPORT_REJECT){
+                    showItem(item);
+                    obj = new JSONObject();
+                    obj.put("customerStoreNumber", item.key);
+                    obj.put("takeUserPhoneNumber", item.value);
+                    JSONObject logisticsCompany = new JSONObject();
+                    logisticsCompany.put("id",item.logisticsCompany);
+                    obj.put("logisticsCompany",logisticsCompany);
+                    obj.put("chargeType",item.chargeType);
+                    HttpResponse httpResponse = HttpUtils.sendPost(url, obj.toString(), null, headers);
+                    if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK){
+                        listAlreadyExist.add(item.key);
+                    }
+                    HttpUtils.getHttpResultStr(httpResponse);
+                }
+            }
+
+           if (count % Config.MAX_PER_POST_COUNT != 0) {
+                String postStr = arr.toString();
+                String result = HttpUtils.getHttpResultStr(HttpUtils.sendPost(url, postStr, null, headers));
+                //处理结果
+                handleResult(result, listBadParams, listNotPerMission, listAlreadyExist);
+                //
+            }
+
+
+            //生成结果
+            JSONObject result = new JSONObject();
+            int sumFailed = listBadParams.size() + listNotPerMission.size() + listAlreadyExist.size();
+            if (sumFailed <= 5){
+                getJsonResult("BAD_PARAMETER",listBadParams,result);
+                getJsonResult("NOT_PERMISSION",listNotPerMission,result);
+                getJsonResult("ALREADY_EXIST",listAlreadyExist,result);
+            }
+
+            Utils.log("failed = " + sumFailed);
+            Utils.log(result.toString());
+
+            result.put("successCount", list.size() - sumFailed);
+            result.put("failCount",sumFailed);
+            if (sumFailed > 0)
+                result.put("fileNum",getFileNum(listBadParams, listNotPerMission, listAlreadyExist,id));
+            JSONObject ret = new JSONObject();
+            ret.put("resultCode",0);
+            ret.put("result",result);
+            return ret.toString();
+        }catch (Exception e){
+            if (e instanceof FileNotFoundException){
+                try{
+                    JSONObject obj = new JSONObject();
+                    obj.put("resultCode",Config.RET_FILE_NOT_FOUND);
+                    obj.put("msg","file not found");
+                    return obj.toString();
+                }catch (Exception e1){
+                    e1.printStackTrace();
+                }
+            }else{
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public static void showItem(ImportExpModel item){
+        Utils.log("show item key = " + item.key + " value = " + item.value);
+    }
+
+
+    /**
+     * 生成excel
+     * @param listB
+     * @param listN
+     * @param listA
+     * @return
+     */
+    public static long getFileNum(List<String> listB,List<String> listN,List<String> listA,String id){
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet;
+        HSSFCellStyle style = wb.createCellStyle();
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        HSSFCell cell;
+        HSSFRow row;
+
+        if (listB.size() > 0){
+            sheet = wb.createSheet("BAD_PARAMETER");
+            int count = 0;
+            for (String item : listB){
+                row = sheet.createRow(count++);
+                cell = row.createCell(0);
+                cell.setCellStyle(style);
+                cell.setCellValue(item);
+            }
+        }
+
+        if (listN.size() > 0){
+            sheet = wb.createSheet("NOT_PERMISSION");
+            int count = 0;
+            for (String item : listN){
+                row = sheet.createRow(count++);
+                cell = row.createCell(0);
+                cell.setCellStyle(style);
+                cell.setCellValue(item);
+            }
+        }
+
+        if (listA.size() > 0){
+            sheet = wb.createSheet("ALREADY_EXIST");
+            int count = 0;
+            for (String item : listA){
+                row = sheet.createRow(count++);
+                cell = row.createCell(0);
+                cell.setCellStyle(style);
+                cell.setCellValue(item);
+            }
+        }
+
+        long fileNum = System.currentTimeMillis();
+
+        String path = Config.FILE_PATH_WIN;
+        if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+            path = Config.FILE_PATH_WIN;
+        } else {
+            path = Config.FILE_PATH_LINUX;
+        }
+
+        String filename = path + Config.IMPORT_RESULT_FILE_PRE + id + fileNum + ".xls";
+        Utils.log("filename = " + filename);
+
+        try {
+            FileOutputStream fout = new FileOutputStream(filename);
+            wb.write(fout);
+            fout.close();
+            wb.close();
+            FileCleanService.getInstance().add(FileDelModel.obtain(filename));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Utils.printTimeLog("prepare result ok");
+        return fileNum;
+    }
+
+    public static void getJsonResult(String tag,List<String> list,JSONObject obj){
+        if (list.size() > 0){
+            JSONArray arr = new JSONArray();
+            try{
+                for(String item:list){
+                    arr.put(item);
+                }
+                obj.put(tag,arr);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void handleResult(String result,List<String> listB,List<String> listN,List<String> listA){
+        try{
+            JSONObject obj = new JSONObject(result);
+
+            if (obj.has("BAD_PARAMETER")){
+                JSONArray arr = obj.getJSONArray("BAD_PARAMETER");
+                for(int i=0;i<arr.length();i++){
+                    listB.add(arr.getString(i));
+                }
+            }
+
+            if (obj.has("NOT_PERMISSION")){
+                JSONArray arr = obj.getJSONArray("NOT_PERMISSION");
+                for(int i=0;i<arr.length();i++){
+                    listN.add(arr.getString(i));
+                }
+            }
+
+            if (obj.has("ALREADY_EXIST")){
+                JSONArray arr = obj.getJSONArray("ALREADY_EXIST");
+                for(int i=0;i<arr.length();i++){
+                    listA.add(arr.getString(i));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+}

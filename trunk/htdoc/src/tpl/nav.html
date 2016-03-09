@@ -1,0 +1,80 @@
+<nav class="nav">
+    <ul>
+        <li class="nav_title">
+            <i class="nav_icon" style="background:url(
+        assets/img/nav-icon.png
+        ) no-repeat center;">
+            </i>
+            <span ng-bind="LNavBaseInfomation"></span>
+        </li>
+
+        <li ng-class="{nav_item: 1, selected: location.pathname.split('/').pop() == 'courier.html'}">
+            <a href="courier.html" ng-bind="LNavPeople">人员信息</a>
+        </li>
+    </ul>
+    <ul ng-show="userrole == 'ROOT' ||userrole == 'OPERATOR_ADMIN' || userrole == 'OPERATOR_USER'">
+        <li class="nav_title">
+            <i class="nav_icon" style="background:url(
+        assets/img/nav-icon.png
+        ) no-repeat center;">
+            </i>
+            <span ng-bind="LNavPakpobox"></span>
+        </li>
+        <li class="nav_item"  ng-class="{nav_item: 1, selected: location.pathname.split('/').pop() == 'pakpoboxList.html'}">
+            <a href="pakpoboxList.html" ng-bind="LNavPakpoboxMaintain">维护</a>
+        </li>
+    </ul>
+    <ul>
+        <li class="nav_title">
+            <i class="nav_icon" style="background:url(
+        assets/img/nav-icon.png
+        ) no-repeat center;">
+            </i>
+            <span ng-bind="LNavExpressManagement"></span>
+        </li>
+
+        <li class="nav_item"  ng-class="{nav_item: 1, selected: location.href.split('/').pop() == 'express.html?type=COURIER_STORE'}">
+            <a href="express.html?type=COURIER_STORE" ng-bind="LNavExpressManagementAll">综合管理</a>
+        </li>
+
+        <li class="nav_item"  ng-class="{nav_item: 1, selected: location.href.split('/').pop() == 'express.html?type=CUSTOMER_STORE'}">
+            <a href="express.html?type=CUSTOMER_STORE" ng-bind="LNavExpressManagementSend">寄件信息</a>
+        </li>
+		
+		 <li class="nav_item"  ng-class="{nav_item: 1, selected: location.href.split('/').pop() == 'express.html?type=CUSTOMER_TO_STAFF'}">
+            <a href="express.html?type=CUSTOMER_TO_STAFF" ng-bind="LNavExpressManagementCustomertToStaff">用户寄件信息</a>
+        </li>
+
+        <li class="nav_item"  ng-class="{nav_item: 1, selected: location.href.split('/').pop() == 'express.html?type=CUSTOMER_REJECT'}">
+            <a href="express.html?type=CUSTOMER_REJECT" ng-bind="LNavExpressManagementBack">退件信息</a>
+        </li>
+
+        <li class="nav_item"  ng-class="{nav_item: 1, selected: location.pathname.split('/').pop() == 'expressImport.html'}"  ng-show="userrole == 'ROOT' ||userrole == 'LOGISTICS_COMPANY_ADMIN' || userrole == 'LOGISTICS_COMPANY_USER'">
+            <a href="expressImport.html" ng-bind="LNavExpressManagementImport">导入</a>
+        </li>
+    </ul>
+    <ul>
+        <li class="nav_title">
+            <i class="nav_icon" style="background:url(
+        assets/img/nav-icon.png
+        ) no-repeat center;">
+            </i>
+            <span ng-bind="LNavStatic"></span>
+        </li>
+        <li class="nav_item" ng-class="{nav_item: 1, selected: location.pathname.split('/').pop() == 'statistics.html'}">
+            <a href="statistics.html" ng-bind="LNavStaticExpress">统计信息</a>
+        </li>
+    </ul>
+    <ul ng-show="userrole == 'ROOT' ||userrole == 'OPERATOR_ADMIN' || userrole == 'OPERATOR_USER'">
+        <li class="nav_title">
+            <i class="nav_icon" style="background:url(
+        assets/img/nav-icon.png
+        ) no-repeat center;">
+            </i>
+            <span ng-bind="LNavAd"></span>
+        </li>
+        <li class="nav_item" ng-class="{nav_item: 1, selected: location.pathname.split('/').pop() == 'business.html'}">
+            
+        </li>
+    </ul>
+</nav>

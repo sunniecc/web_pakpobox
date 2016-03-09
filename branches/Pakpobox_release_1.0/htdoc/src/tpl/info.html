@@ -1,0 +1,35 @@
+<h3 class="info-h3" ng-bind-html="info.title"></h3>
+<hr class="info-hr"/>
+
+<div class="info-content">
+    <div ng-show="showTipsType==1" class="loading"><img ng-src="assets/img/loading.gif"/></div>
+    <div ng-show="showTipsType==2" class="loading"><span ng-bind="LResponseEmpty"></span></div>
+    <div class="info-item" ng-repeat="item in info.content track by $index">
+        <p ng-bind="item.key"></p>
+        <p class="info-value" ng-bind="item.value"></p>
+    </div>
+    <div class="info-item" ng-show="showMsg">
+        <p ng-bind="LDetailExpressMessage"></p>
+        <p class="info-value"><a style="cursor: pointer" ng-click="checkMsg()"  ng-bind="LDetailMsgClick"></a></p>
+    </div>
+</div>
+
+<h3 class="info-h3" ng-bind-html="info.secondTitle | trusted"></h3>
+<hr class="info-hr"/>
+
+<div class="info-content">
+    <div ng-show="showTipsType==1" class="loading"><img ng-src="assets/img/loading.gif"/></div>
+    <div ng-show="showTipsType==2" class="loading"><span ng-bind="LResponseEmpty"></span></div>
+    <div class="info-item" ng-show="showTakeUserPhone">
+        <p ng-bind="LTableTakerPhone">取件人手机</p>
+        <p class="info-value"><span class="takePhone" ><span ng-bind="takeUserPhone" ng-show="onNormal"></span><span ng-show="onLoading"><img class="info-loding" ng-src="assets/img/loading.gif"/></span><a  ng-show="onNormal" ng-click="modifyPhone()" ng-bind="LDetailModify">修改</a></span><span  class="phoneModify" ng-show="onEdit"><input class="form-control" ng-model="takeUserPhoneEditor" /><a ng-click="confirmModify()" ng-bind="LDetailSure">确定</a></span></p>
+    </div>
+    <div class="info-item" ng-repeat="item in info.contactContent track by $index">
+        <p ng-bind="item.key"></p>
+        <p class="info-value" ng-bind="item.value"></p>
+    </div>
+</div>
+
+<div class="info-button">
+    <input type="button" class="btn btn-lg btn-primary input-md" ng-click="close()" ng-value="LClose" \>
+</div>

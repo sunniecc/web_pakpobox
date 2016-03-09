@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="business" ng-controller="main" style="display:none;">
+
+<div ng-include="'header'">
+</div>
+
+<div class="container">
+    <div class="sidebar" ng-include="'nav'">
+
+    </div>
+    <div class="content">
+        <div ng-include="'table'"></div>
+        <h3 class="edit-h3">{{LADEdit}}</h3>
+        <hr/>
+        <div class="edit-content edit-content-big">
+            <p>{{LChooseADManager}}</p>
+            <div id="uploader-demo">
+                <!--用来存放item-->
+                <div class="filePicker"><span ng-bind="LBusinessPicChoose"></span></div>
+                <div id="fileList" class="uploader-list"></div>
+            </div>
+            <br/>
+            <img ng-repeat="item in imgList" src="assets/img/business_1.jpg" class="business-piclist" alt="{{item.name}}" title="{{item.name}}"/>
+            <br/>
+            <br/>
+            <p>{{LADLocationInfo}}</p>
+            <input type="text" class="input-lg" placeholder="{{LADLocationInfo}}" ng-model="position"/>
+            <br/>
+            <br/>
+            <p>{{LChooseOprator}}</p>
+             <div>
+                <input type="text" class="edit-input input-lg" ng-show="userrole == 'ROOT'  || userrole == 'OPERATOR_ADMIN'|| userrole == 'OPERATOR_USER' || companyList.length <= 0" ng-change="companyError = flase" ng-class="{'edit-error': companyError}" placeholder="{{LChooseOprator}}" id="company"  ng-model="company"/>
+            </div>
+            <select class="edit-input input-lg edit-input_width_md" id="noroot_company" ng-hide="userrole == 'ROOT' || userrole == 'OPERATOR_ADMIN'|| userrole == 'OPERATOR_USER' || companyList.length <= 0" placeholder="{{LCompanyName}}" required ng-model="companyValue">
+                <option value="" selected disabled default ng-bind="LCompanyName"></option>
+                <option ng-repeat="item in companyList" value="{{item.id}}" ng-bind="item.name"></option>
+            </select>
+            <br/>
+            <input type="button" class="btn btn-primary edit-btn input-lg   edit-input_width_md" ng-value="LSubmit" ng-click="submit()"/>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/business.js"></script>
+
+</body>
+</html>

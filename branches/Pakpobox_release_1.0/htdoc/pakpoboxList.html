@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="pakpoboxList" ng-controller="main" style="display:none;">
+
+<div ng-include="'header'">
+
+</div>
+
+<div class="container">
+    <div class="sidebar" ng-include="'nav'">
+
+    </div>
+    <div class="content">
+        <form class="form-inline searchform">
+            <div class="searchform-content">
+                <div class="form-group">
+                    <label><span ng-bind="LPakpoboxStatus"></span>：</label>
+                    <label class="radio-inline" ng-class="{selected: isStatusActive('')}" ng-click="selectStatus('')">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> <span ng-bind="LAll"></span>
+                    </label>
+                    <label class="radio-inline" ng-class="{selected: isStatusActive('ENABLE')}" ng-click="selectStatus('ENABLE')">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> <span ng-bind="LPakpoboxRun"></span>
+                    </label>
+                    <label class="radio-inline" ng-class="{selected: isStatusActive('DISABLE')}" ng-click="selectStatus('DISABLE')">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> <span ng-bind="LPakpoboxStop"></span>
+                    </label>
+                    <label class="radio-inline" ng-class="{selected: isStatusActive('EXCEPTION')}" ng-click="selectStatus('EXCEPTION')">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> <span ng-bind="LPakpoboxException"></span>
+                    </label>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label for="operatorName"><span ng-bind="LPakpoboxOperatorName"></span>：</label>
+                    <input type="text" class="form-control" id="operatorName" placeholder="" ng-model="operatorName">
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label for="pakpoboxNum"><span ng-bind="LPakpoboxNum"></span>：</label>
+                    <input type="text" class="form-control" id="pakpoboxNum" placeholder="" ng-model="pakpoboxNum">
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label for="pakpoboxName"><span ng-bind="LPakpoboxName"></span>：</label>
+                    <input type="text" class="form-control" id="pakpoboxName" placeholder="" ng-model="pakpoboxName">
+                </div>
+            </div>
+            <div class="searchform-button">
+                <div class="searchform-button_inner">
+                    <button class="btn btn-primary btn-lg" ng-click="search()"><i class="glyphicon glyphicon-search" aria-hidden="true"></i> <span ng-bind="LSearch"></span></button>
+                </div>
+            </div>
+
+        </form>
+        <a href="box_edit.html" class="btn btn-primary"   ng-show="userrole == 'ROOT'"  ng-bind="LPakpoboxNew"></a>
+        <div ng-include="'table'"></div>
+    </div>
+</div>
+
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/pakpoboxList.js"></script>
+
+</body>
+</html>

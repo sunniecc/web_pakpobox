@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_pakreportformservice" default="compile.module.pakreportformservice">
+  <dirname property="module.pakreportformservice.basedir" file="${ant.file.module_pakreportformservice}"/>
+  
+  <property name="module.jdk.home.pakreportformservice" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.pakreportformservice" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.pakreportformservice" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.pakreportformservice" value="-encoding UTF-8 -source 1.7 ${compiler.args}"/>
+  
+  <property name="pakreportformservice.output.dir" value="${module.pakreportformservice.basedir}/out/production/PakReportFormService"/>
+  <property name="pakreportformservice.testoutput.dir" value="${module.pakreportformservice.basedir}/out/test/PakReportFormService"/>
+  
+  <path id="pakreportformservice.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="pakreportformservice.module.production.classpath">
+    <path refid="${module.jdk.classpath.pakreportformservice}"/>
+    <pathelement location="${basedir}/libs/commons-codec-1.9.jar"/>
+    <pathelement location="${basedir}/libs/commons-logging-1.2.jar"/>
+    <pathelement location="${basedir}/libs/fluent-hc-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-cache-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpcore-4.4.3.jar"/>
+    <pathelement location="${basedir}/libs/httpmime-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/jna-4.1.0.jar"/>
+    <pathelement location="${basedir}/libs/jna-platform-4.1.0.jar"/>
+    <pathelement location="${basedir}/libs/poi-3.13-20150929.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-win-4.5.1.jar"/>
+  </path>
+  
+  <path id="pakreportformservice.runtime.production.module.classpath">
+    <pathelement location="${pakreportformservice.output.dir}"/>
+    <pathelement location="${basedir}/libs/commons-codec-1.9.jar"/>
+    <pathelement location="${basedir}/libs/commons-logging-1.2.jar"/>
+    <pathelement location="${basedir}/libs/fluent-hc-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-cache-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpcore-4.4.3.jar"/>
+    <pathelement location="${basedir}/libs/httpmime-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/jna-4.1.0.jar"/>
+    <pathelement location="${basedir}/libs/jna-platform-4.1.0.jar"/>
+    <pathelement location="${basedir}/libs/poi-3.13-20150929.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-win-4.5.1.jar"/>
+  </path>
+  
+  <path id="pakreportformservice.module.classpath">
+    <path refid="${module.jdk.classpath.pakreportformservice}"/>
+    <pathelement location="${pakreportformservice.output.dir}"/>
+    <pathelement location="${basedir}/libs/commons-codec-1.9.jar"/>
+    <pathelement location="${basedir}/libs/commons-logging-1.2.jar"/>
+    <pathelement location="${basedir}/libs/fluent-hc-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-cache-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpcore-4.4.3.jar"/>
+    <pathelement location="${basedir}/libs/httpmime-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/jna-4.1.0.jar"/>
+    <pathelement location="${basedir}/libs/jna-platform-4.1.0.jar"/>
+    <pathelement location="${basedir}/libs/poi-3.13-20150929.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-win-4.5.1.jar"/>
+  </path>
+  
+  <path id="pakreportformservice.runtime.module.classpath">
+    <pathelement location="${pakreportformservice.testoutput.dir}"/>
+    <pathelement location="${pakreportformservice.output.dir}"/>
+    <pathelement location="${basedir}/libs/commons-codec-1.9.jar"/>
+    <pathelement location="${basedir}/libs/commons-logging-1.2.jar"/>
+    <pathelement location="${basedir}/libs/fluent-hc-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-cache-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/httpcore-4.4.3.jar"/>
+    <pathelement location="${basedir}/libs/httpmime-4.5.1.jar"/>
+    <pathelement location="${basedir}/libs/jna-4.1.0.jar"/>
+    <pathelement location="${basedir}/libs/jna-platform-4.1.0.jar"/>
+    <pathelement location="${basedir}/libs/poi-3.13-20150929.jar"/>
+    <pathelement location="${basedir}/libs/httpclient-win-4.5.1.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.pakreportformservice">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.pakreportformservice">
+    <patternset refid="excluded.from.module.pakreportformservice"/>
+  </patternset>
+  
+  <path id="pakreportformservice.module.sourcepath">
+    <dirset dir="${module.pakreportformservice.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.pakreportformservice" depends="compile.module.pakreportformservice.production,compile.module.pakreportformservice.tests" description="Compile module PakReportFormService"/>
+  
+  <target name="compile.module.pakreportformservice.production" depends="register.custom.compilers" description="Compile module PakReportFormService; production classes">
+    <mkdir dir="${pakreportformservice.output.dir}"/>
+    <javac2 destdir="${pakreportformservice.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.pakreportformservice}/javac">
+      <compilerarg line="${compiler.args.pakreportformservice}"/>
+      <bootclasspath refid="pakreportformservice.module.bootclasspath"/>
+      <classpath refid="pakreportformservice.module.production.classpath"/>
+      <src refid="pakreportformservice.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.pakreportformservice"/>
+    </javac2>
+    
+    <copy todir="${pakreportformservice.output.dir}">
+      <fileset dir="${module.pakreportformservice.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.pakreportformservice.tests" depends="register.custom.compilers,compile.module.pakreportformservice.production" description="compile module PakReportFormService; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.pakreportformservice" description="cleanup module">
+    <delete dir="${pakreportformservice.output.dir}"/>
+    <delete dir="${pakreportformservice.testoutput.dir}"/>
+  </target>
+</project>

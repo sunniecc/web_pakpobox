@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="expressImport" ng-controller="main" style="display:none;">
+
+<div ng-include="'header'">
+</div>
+
+<div class="container">
+    <div class="sidebar" ng-include="'nav'">
+
+    </div>
+    <div class="content">
+        <form class="form-inline searchform">
+            <div class="searchform-content">
+                <div class="form-group">
+                    <label ><span ng-bind="LImportExpressType"></span>：</label>
+                    <!--<label class="radio-inline" ng-class="{selected: isTypeActive('')}" ng-click="selectType('')">-->
+                        <!--<input type="radio" name="inlineRadioOptions" value="option1" /> <span ng-bind="LImportAll"></span>-->
+                    <!--</label>-->
+                    <label class="radio-inline" ng-class="{selected: isTypeActive('COURIER_STORE')}" ng-click="selectType('COURIER_STORE')">
+                        <input type="radio" name="inlineRadioOptions" value="option1" /> <span ng-bind="LImportCourier"></span>
+                    </label>
+                    <label class="radio-inline" ng-class="{selected: isTypeActive('CUSTOMER_STORE')}" ng-click="selectType('CUSTOMER_STORE')">
+                        <input type="radio" name="inlineRadioOptions" value="option1" /> <span ng-bind="LImportSend"></span>
+                    </label>
+                    <label class="radio-inline" ng-class="{selected: isTypeActive('CUSTOMER_REJECT')}" ng-click="selectType('CUSTOMER_REJECT')">
+                        <input type="radio" name="inlineRadioOptions" value="option1" /> <span ng-bind="LImportReturn"></span>
+                    </label>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <div id="thelist" class="uploader-list"></div>
+                    <div class="searchform-filepicker"><span ng-bind="LChooseFile"></span></div>
+                    <button ng-click="upload()" class="btn btn-default searchform-fileupload"><span ng-bind="LBeginUpload"></span></button>
+                    <div class="searchform-uploader_example">
+                        <p><span ng-bind="LUploadGuide"></span></p>
+                        <p><span ng-bind="LUploadStep1"></span><a ng-bind="LImportModelDownload" href="assets/doc/{{exampleName}}.xls"></a><span ng-bind="LUploadStep12"></span></p>
+                        <p><span ng-bind="LUploadStep2"></span></p>
+                        <p><span ng-bind="LUploadStep3"></span></p>
+                    </div>
+                </div>
+
+
+
+
+                </div>
+        </form>
+
+        <div ng-include="'table'"></div>
+    </div>
+</div>
+
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/expressImport.js"></script>
+
+</body>
+</html>

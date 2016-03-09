@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="index" ng-controller="main" style="display:none;">
+
+        <div ng-include="'header'">
+        <p></p>
+        </div>
+
+        <div class="container">
+            <div class="sidebar" ng-include="'nav'">
+
+            </div>
+            <div class="content">
+                <div class="index-info">
+
+                    <dl class="dl-horizontal">
+                        <dt ng-bind="LLoginname"></dt><dd ng-bind="loginname"></dd>
+                        <dt ng-bind="LUsername"></dt><dd ng-bind="username"></dd>
+                        <dt ng-bind="LRole"></dt><dd ng-bind="usertype"></dd>
+                        <dt ng-bind="LCompany"></dt><dd ng-bind="company"></dd>
+                    </dl>
+                    <!--<dl class="dl-horizontal">-->
+                        <!--<dt ng-bind="LUsername"></dt><dd ng-bind="username"></dd>-->
+                        <!--<dt ng-bind="LCompany"></dt><dd ng-bind="company"></dd>-->
+                    <!--</dl>-->
+
+                </div>
+                <div class="index-cont">
+                    <div class="index-charts">
+                        <div class="index-charts-left"></div>
+                        <div class="index-charts-right"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/echarts-custom.js"></script>
+<script src="assets/js/index.js"></script>
+</body>
+</html>

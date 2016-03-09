@@ -1,0 +1,37 @@
+<header class="header">
+    <div class="header-box">
+        <div class="inner-wrapper">
+            <h1 class="logo">
+                <a href="/" title="pakbox">
+                    <img ng-src="assets/img/logo.png"/>
+                </a>
+            </h1>
+
+            <div class="account" ng-init="showDrop = 0" ng-mouseover="showDrop = 1" ng-mouseleave="showDrop = 0">
+                <div class="account-info">
+                    <span ng-bind="username || ''"></span>
+                </div>
+                <div class="account-type">
+                    <span ng-bind="usertype"></span>
+                </div>
+                <div class="account-dropdown" ng-style="showDrop && {'display': 'block'}">
+                    <ul class="account-dropdown-menu">
+                        <li><a href="passwd.html" ng-bind="LUpdatePassword"></a></li>
+                        <li><a ng-click="logout()" ng-bind="LLogout"></a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+
+            <div class="language">
+                <a href="javascript:;" ng-click="LChooseLang('zh')" ng-class="{selectedLanguage:localStorage.lang == 'zh'}">中文</a>
+                |
+                <a href="javascript:;" ng-click="LChooseLang('en')" ng-class="{selectedLanguage:localStorage.lang == 'en'}">English</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+

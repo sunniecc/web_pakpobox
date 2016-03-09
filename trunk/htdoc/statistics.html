@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="statistics" ng-controller="main" style="display:none;">
+
+<div ng-include="'header'">
+
+</div>
+
+<div class="container">
+    <div class="sidebar" ng-include="'nav'">
+
+    </div>
+    <div class="content">
+        <form class="form-inline searchform">
+            <div class="searchform-content">
+                <div class="form-group searchform-time">
+                    <label for="time_store"><span ng-bind-html="LTimeStatistics"></span>：</label>
+                    <input type="text" class="form-control" id="time_store">
+                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                </div>
+            </div>
+            <div class="searchform-button">
+                <div class="searchform-button_inner" style="top: 30%">
+                    <button class="btn btn-primary btn-lg" ng-click="search()"><i class="glyphicon glyphicon-search" aria-hidden="true"></i> <span ng-bind="LSearch"></span></button>
+                </div>
+            </div>
+
+        </form>
+        <div>
+                <a ng-click="statisticsExport()" class="btn btn-primary" ng-bind="LStatisticsExport"></a>
+                <p style="float:right;font:red">{{LStatisticsNote}}</p>            
+        </div>
+        <div ng-include="'table1'"></div>
+        <div ng-include="'table2'"></div>
+    </div>
+</div>
+
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/statistics.js"></script>
+
+</body>
+</html>

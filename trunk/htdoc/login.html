@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="login" ng-controller="main" style="display:none;">
+<div class="login-frame">
+    <div class="login-box">
+        <img src="assets/img/logo.png" alt="" class="login-logo"/>
+        <input type="text" class="login-username input-lg" placeholder="{{LUsernamePlaceholer}}" ng-model="username" ng-keypress="keypress($event)"/>
+        <input type="password" class="login-password input-lg" placeholder="{{LUPasswordPlaceholer}}" ng-model="password" ng-keypress="keypress($event)"/>
+        <div id="alert"></div>
+        <input type="button" class="btn btn-primary login-btn input-lg" ng-value="LLoginSubmit" ng-click="submit()"/>
+        <!--<a class="login-contrat" ng-bind="LContratUs"></a>-->
+        <!--<a href="validation.html" class="login-forget" ng-bind="LForgetPassword"></a>-->
+    </div>
+</div>
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/login.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="logistics_user" ng-controller="main" style="display:none;">
+
+<div ng-include="'header'"></div>
+
+<div class="container">
+    <div class="sidebar" ng-include="'nav'">
+
+    </div>
+    <div class="content">
+        <div id="alert">
+
+        </div>
+        <h3 class="edit-h3" ng-bind="LLogisticsInfo"></h3>
+        <hr/>
+        <div class="edit-nav operator-nav">
+            <label class="edit-nav_num selected" for="">1</label>
+            <span ng-bind="LLogisticsInfo"></span>
+            <span class="edit-nav_line selected">。。。</span>
+            <label class="edit-nav_num selected">2</label>
+            <span ng-bind="LLinkmanInfo"></span>
+        </div>
+        <div class="edit-content">
+            <p ng-bind="LLogisticsInfoTips"></p>
+            <input type="text" class="edit-input input-lg edit-input_width_md" placeholder="联系人"  ng-model="loginName"/>
+            <input type="text" class="edit-input input-lg edit-input_width_md" placeholder="手机号" ng-model="phoneNumber"/>
+            <input type="button" class="btn btn-primary edit-btn input-lg edit-input_width_md" ng-disabled="submitDisabled" ng-value="LSubmit"  ng-click="submit()"/>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/logistics_user.js"></script>
+
+</body>
+</html>

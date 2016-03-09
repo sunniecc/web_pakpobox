@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="express" ng-controller="main" style="display:none;">
+
+<div ng-include="'header'">
+
+</div>
+
+<div class="container info-container">
+    <h3 class="box-h3" ng-bind="box.title"></h3>
+    <div class="edit-content" ng-show="step == 1">
+        <p class="edit-p" ng-bind="LPakpoboxInfoTips"></p>
+        <div>
+            <input type="text" class="edit-input input-lg edit-input_width_md" id="operator" ng-show="userrole == 'ROOT' || companyList.length <= 0" placeholder="{{LTableOperatorsName}}" ng-model="operator"/>
+        </div>
+        <select class="edit-input input-lg edit-input_width_md" id="PakpoboxOperator" ng-hide="userrole == 'ROOT' || companyList.length <= 0" placeholder="{{LPakpoboxOperator}}" required ng-model="operatorValue">
+            <option value="" selected disabled default ng-bind="LPakpoboxOperator"></option>
+            <option ng-repeat="item in companyList" value="{{item.id}}" ng-bind="item.name"></option>
+        </select>
+        <input type="text" class="edit-input input-lg edit-input_width_md" placeholder="{{LPakpoboxName}}"  ng-model="name"/>
+        <input type="text" class="edit-input input-lg edit-input_width_md" placeholder="{{LPakpoboxOrderNo}}" ng-model="orderNo"/>
+        <select class="edit-input input-lg edit-input_width_md" placeholder="{{LPakpoboxZoneId}}" required ng-model="zoneId">
+            <option value="" selected disabled default ng-bind="LPakpoboxZoneId"></option>
+            <option value="Asia/Shanghai">Asia/Shanghai</option>
+            <option value="Australia/Darwin">Australia/Darwin</option>
+            <option value="Australia/Sydney">Australia/Sydney</option>
+            <option value="Africa/Cairo">Africa/Cairo</option>
+            <option value="America/Argentina/Buenos_Aires">America/Argentina/Buenos_Aires</option>
+            <option value="America/Anchorage">America/Anchorage</option>
+            <option value="America/Sao_Paulo">America/Sao_Paulo</option>
+            <option value="Asia/Dhaka">Asia/Dhaka</option>
+            <option value="Africa/Harare">Africa/Harare</option>
+            <option value="America/St_Johns">America/St_Johns</option>
+            <option value="America/Chicago">America/Chicago</option>
+            <option value="Africa/Addis_Ababa">Africa/Addis_Ababa</option>
+            <option value="Europe/Paris">Europe/Paris</option>
+            <option value="America/Indiana/Indianapolis">America/Indiana/Indianapolis</option>
+            <option value="Asia/Kolkata">Asia/Kolkata</option>
+            <option value="Asia/Tokyo">Asia/Tokyo</option>
+            <option value="Pacific/Apia">Pacific/Apia</option>
+            <option value="Asia/Yerevan">Asia/Yerevan</option>
+            <option value="Pacific/Auckland">Pacific/Auckland</option>
+            <option value="Asia/Karachi">Asia/Karachi</option>
+            <option value="America/Phoenix">America/Phoenix</option>
+            <option value="America/Puerto_Rico">America/Puerto_Rico</option>
+            <option value="America/Los_Angeles">America/Los_Angeles</option>         
+            <option value="Pacific/Guadalcanal">Pacific/Guadalcanal</option>
+            <option value="Asia/Ho_Chi_Minh">Asia/Ho_Chi_Minh</option>
+            <option value="Asia/Jakarta">Asia/Jakarta</option>
+        </select>
+        <select class="edit-input input-lg edit-input_width_md" placeholder="{{LPakpoboxCurrencyUnit}}" required ng-model="currencyUnit">
+            <option value="" selected disabled default ng-bind="LPakpoboxCurrencyUnit"></option>
+            <option value="HKD">HKD</option>
+            <option value="IDR">IDR</option>
+            <option value="USD">USD</option>
+            <option value="CNY">CNY</option>
+        </select>
+        <select class="edit-input input-lg edit-input_width_md" placeholder="{{LPakpoboxOverdueType}}" required ng-model="overdueType">
+            <option value="" selected disabled default ng-bind="LPakpoboxOverdueType"></option>
+            <option value="DAY">DAY</option>
+            <option value="HOUR">HOUR</option>
+        </select>
+        <input type="text" class="edit-input input-lg edit-input_width_md" placeholder="{{LPakpoboxOverdueTime}}" ng-model="overdueTime"/>
+        <select class="edit-input input-lg edit-input_width_md" placeholder="{{LPakpoboxSmsAccount}}" required ng-model="smsAccount">
+            <option value="" selected disabled default ng-bind="LPakpoboxSmsAccount"></option>
+            <option ng-repeat="item in smsList" value="{{item.id}}" ng-bind="item.name"></option>
+        </select>
+       <div id="alert" class="edit-input_width_md"></div>
+       <div class="edit-content" style="display: none;">
+         <input type="button" class="btn btn-primary edit-btn input-lg edit-input_width_md" ng-disabled="submitConfirm" ng-value="LSubmit" ng-click="submit()"/>
+       </div>
+    </div>
+
+    <hr />
+
+    <div ng-show="step == 2" ng-include="'box'"></div>
+
+</div>
+<div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="submitModalLabel" ng-bind="LTips"></h4>
+            </div>
+            <div class="modal-body">
+                <p ng-bind-html="submitRespose | trusted">
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-bind="LApply" ng-click="returnPrev()"></button>
+                <button type="button" class="btn btn-default" ng-bind="LCancel" data-dismiss="modal"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="goAddBoxView" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="deleteUserModalLabel" ng-bind="LTips"></h4>
+            </div>
+            <div class="modal-body">
+                <p ng-bind="LAddPakpoboxView">
+                    
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-bind="LApply" ng-click="confirmDeleteUser()"></button>
+                <button type="button" class="btn btn-default" ng-bind="LCancel" data-dismiss="modal"></button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/box_edit.js"></script>
+
+</body>
+</html>

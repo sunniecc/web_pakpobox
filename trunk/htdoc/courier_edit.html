@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PakpoBox-Admin</title>     <!--[if lt IE 9]>     <script>         location.href = 'error_browser.html';     </script>     <![endif]-->
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body ng-app="courier_edit" ng-controller="main" style="display:none;">
+
+<div ng-include="'header'"></div>
+
+<div class="container">
+    <div class="sidebar" ng-include="'nav'">
+
+    </div>
+    <div class="content">
+
+        <h3 class="edit-h3" ng-bind="LPeopleInfo"></h3>
+        <hr/>
+        <div class="edit-content">
+            <select class="edit-input input-lg edit-input_width_md" id="peopleType" placeholder="{{LPeopleType}}" ng-change="peopleTypeError = flase"  ng-class="{'edit-error': peopleTypeError}" required ng-model="currencPeopleType">
+                <option value="" selected disabled default ng-bind="LPeopleType"></option>
+                <option ng-repeat="item in peopleTypeList" value="{{item.id}}" ng-bind="item.peopleType"></option>
+            </select>
+            <input type="text" class="edit-input input-lg edit-input_width_md" ng-change="loginNameError = flase" ng-class="{'edit-error': loginNameError}" placeholder="{{LLoginname}}" ng-hide="update"  ng-model="loginName"/>
+            <input type="password" class="edit-input input-lg edit-input_width_md" ng-change="passwordError = flase" ng-class="{'edit-error': passwordError}" placeholder="{{LUPasswordPlaceholer}}" ng-model="password"/>
+            <input type="password" class="edit-input input-lg edit-input_width_md" ng-change="repasswordError = flase" ng-class="{'edit-error': repasswordError}" placeholder="{{LResetPassword}}" ng-model="repassword"/>
+            <input type="text" class="edit-input input-lg edit-input_width_md" ng-change="nameError = flase" ng-class="{'edit-error': nameError}" placeholder="{{LUsername}}" ng-model="name"/>
+            <input type="text" class="edit-input input-lg edit-input_width_md" ng-change="phoneNumberError = flase" ng-class="{'edit-error': phoneNumberError}"  placeholder="{{LPhoneNumber}}" ng-model="phoneNumber"/>
+            <div>
+                <input type="text" class="edit-input input-lg edit-input_width_md" ng-show="userrole == 'ROOT'  || companyList.length <= 0" ng-change="companyError = flase" ng-class="{'edit-error': companyError}" placeholder="{{LCompanyName}}" id="company"  ng-model="company"/>
+            </div>
+            <select class="edit-input input-lg edit-input_width_md" id="noroot_company" ng-hide="userrole == 'ROOT' || companyList.length <= 0" placeholder="{{LCompanyName}}" required ng-model="companyValue">
+                <option value="" selected disabled default ng-bind="LCompanyName"></option>
+                <option ng-repeat="item in companyList" value="{{item.id}}" ng-bind="item.name"></option>
+            </select>
+            <div id="alert" class="edit-input_width_md"></div>
+            <input type="button" class="btn btn-primary edit-btn input-lg edit-input_width_md" ng-value="LValitaionSubmit" ng-click="submit()"/>
+        </div>
+
+
+    </div>
+</div>
+
+<script src="assets/js/lib.js"></script>
+<script src="assets/js/courier_edit.js"></script>
+
+</body>
+</html>
